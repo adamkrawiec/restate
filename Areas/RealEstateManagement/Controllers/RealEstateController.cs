@@ -1,5 +1,7 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using restate.db;
 using restate.RealEstateManagement.Models;
 
 namespace restate.RealEstateManagement.Controllers;
@@ -8,22 +10,72 @@ namespace restate.RealEstateManagement.Controllers;
 [Route("real-estates")]
 public class RealEstateController : Controller
 {
-    private readonly ILogger<RealEstateController> _logger;
+    private readonly AppDbContext _context;
 
-    public RealEstateController(ILogger<RealEstateController> logger)
+    public RealEstateController(AppDbContext context)
     {
-        _logger = logger;
+        _context = context;
     }
 
     [Route("")]
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
-        List<RealEstate> realEstates = new List<RealEstate>
-        {
-            new RealEstate(1, "House 1", "Berlin", "Hoffstrasse", "1", "00001", 1000, RealEstateType.RESIDENTIAL),
-            new RealEstate(2, "House 2", "Berlin", "Hoffstrasse", "2", "00001", 1000, RealEstateType.RESIDENTIAL),
-            new RealEstate(2, "House 3", "Berlin", "Ruschestrass", "1", "00001", 200, RealEstateType.COMMERCIAL),
-        };
+        List<RealEstate> realEstates = await _context.RealEstates.ToListAsync();
         return View(realEstates);
     }
+
+    [HttpGet("/new")]
+    public IActionResult New()
+    {
+        return View();
+    }
+
+
+    [HttpPost]
+    public async Task<IActionResult> CreateRealEstate(RealEstate realEstate)
+    {
+        if (ModelState.IsValid)
+        {
+            _context.RealEstates.Add(realEstate);
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Index");
+        }
+
+        return View(realEstate);
+    }
+
+    [HttpGet("{id}")]
+    public async Task<IActionResult> ShowDetails(int id)
+    {
+        RealEstate realEstate = await _context.RealEstates.FindAsync(id);
+        if (realEstate == null)
+        {
+            return NotFound();
+        }
+        return View(realEstate);
+    }
+
+    [HttpGet("{id}/edit")]
+    public IActionResult Edit(int id)
+    {
+        RealEstate realEstate = _context.RealEstates.Find(id);
+        if (realEstate == null)
+        {
+            return NotFound();
+        }
+        return View(realEstate);
+    }
+
+    [HttpPut("/{id}")]
+    public async Task<IActionResult> UpdateRealEstate(int id, RealEstate realEstate)
+    {
+        if (id != realEstate.Id)
+        {
+            return BadRequest();
+        }
+        _context.Entry(realEstate).State = EntityState.Modified;
+        await _context.SaveChangesAsync();
+        return RedirectToAction("Index");
+    }
+
 }

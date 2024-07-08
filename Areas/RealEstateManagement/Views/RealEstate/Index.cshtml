@@ -6,3 +6,13 @@
 }
 
 <h1>Real Estates</h1>
+
+<ul>
+    @foreach(var realEstate in Model)
+    {
+        <li>
+            @Html.ActionLink(realEstate.Name, "ShowDetails", "RealEstate", new { id = realEstate.Id, area = "RealEstateManagement" }, null)
+        </li>
+    }
+
+</ul>

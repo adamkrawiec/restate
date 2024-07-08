@@ -1,20 +1,25 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace restate.RealEstateManagement.Models;
 
 public enum RealEstateType
 {
   RESIDENTIAL,
   COMMERCIAL,
-  GOVERNAMENTAL
+  GOVERNAMENTAL,
+  MIX_USE
 }
 
 public class RealEstate
 {
   public int Id { get; set; }
+  [Required]
   public string Name { get; set; }
+  [Required]
   public string City { get; set; }
   public string Street { get; set; }
-  public string Number { get; set; }
-  public string Zip { get; set; }
+  public string HouseNumber { get; set; }
+  public string PostalCode { get; set; }
   public float Area { get; set; }
   public RealEstateType Type { get; set; }
 
@@ -27,8 +32,8 @@ public class RealEstate
     Name = name;
     City = city;
     Street = street;
-    Number = number;
-    Zip = zip;
+    HouseNumber = number;
+    PostalCode = zip;
     Area = area;
     Type = type;
   }
