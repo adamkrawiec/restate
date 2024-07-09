@@ -9,11 +9,6 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("restatedb"))
 );
-
-// builder.Services.AddMvc()
-//     .AddRazorPagesOptions(options => options.AllowAreas = true);
-
-
 var app = builder.Build();
 
 using(var scope = app.Services.CreateScope())

@@ -1,0 +1,64 @@
+@using restate.RealEstateManagement.Models;
+@model restate.RealEstateManagement.Models.RealEstate;
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers;
+
+@{
+    ViewData["Title"] = "Add New Real Estate";
+}
+
+<h1>Add New Real Estate</h1>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            @using (Html.BeginForm("Create", "RealEstate", FormMethod.Post))
+            {
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Name" class="control-label"></label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="City" class="control-label"></label>
+                    <input asp-for="City" class="form-control" />
+                    <span asp-validation-for="City" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Street" class="control-label"></label>
+                    <input asp-for="Street" class="form-control" />
+                    <span asp-validation-for="Street" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="HouseNumber" class="control-label"></label>
+                    <input asp-for="HouseNumber" class="form-control" />
+                    <span asp-validation-for="HouseNumber" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                <label asp-for="PostalCode" class="control-label"></label>
+                <input asp-for="PostalCode" class="form-control" />
+                </div>
+                <div class="form-group">
+                <label asp-for="Area" class="control-label"></label>
+                <input asp-for="Area" class="form-control" />
+                </div>
+                <div class="form-group">
+                <label asp-for="Type" class="control-label"></label>
+                    @Html.DropDownList(
+                        "Type",
+                        Html.GetEnumSelectList<RealEstateType>(),
+                        "Select Real Estate type",
+                        new { @class = "form-control" }
+                    )
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+            }
+        </div>
+    </div>
+
+    <div>
+        <a asp-action="Index">Back to List</a>
+    </div>
+</div>

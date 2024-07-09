@@ -36,10 +36,10 @@ public class RealEstateControllerTest
     }
 
     [Fact]
-    public async Task Post_CreateRealEstate()
+    public async Task Post_Create()
     {
         var realEstate = newRealEstate(1, "Berlin House 1");
-        var response = await _controller.CreateRealEstate(realEstate);
+        var response = await _controller.Create(realEstate);
         var result = response as RedirectToActionResult;
         Assert.IsType<RedirectToActionResult>(response);
         Assert.Equal("Index", result.ActionName);
@@ -47,10 +47,10 @@ public class RealEstateControllerTest
     }
 
     [Fact]
-    public async Task Post_CreateRealEstate_WhenInvalid()
+    public async Task Post_Create_WhenInvalid()
     {
         var realEstate = newRealEstate(1, null);
-        var response = await _controller.CreateRealEstate(realEstate);
+        var response = await _controller.Create(realEstate);
 
         Assert.IsType<ViewResult>(response);
     }

@@ -6,7 +6,9 @@
 }
 
 <h1>Real Estates</h1>
-
+<h3>
+    @Html.ActionLink("Add New", "New", "RealEstate", new { area = "RealEstateManagement" }, null)
+</h3>
 <ul>
     @foreach(var realEstate in Model)
     {

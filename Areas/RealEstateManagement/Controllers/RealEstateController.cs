@@ -24,7 +24,7 @@ public class RealEstateController : Controller
         return View(realEstates);
     }
 
-    [HttpGet("/new")]
+    [HttpGet("new")]
     public IActionResult New()
     {
         return View();
@@ -32,7 +32,7 @@ public class RealEstateController : Controller
 
 
     [HttpPost]
-    public async Task<IActionResult> CreateRealEstate(RealEstate realEstate)
+    public async Task<IActionResult> Create([Bind("Id,Name,City,Street,HouseNumber,PostalCode,Area,Type")] RealEstate realEstate)
     {
         if (ModelState.IsValid)
         {
@@ -41,7 +41,7 @@ public class RealEstateController : Controller
             return RedirectToAction("Index");
         }
 
-        return View(realEstate);
+        return View("New", realEstate);
     }
 
     [HttpGet("{id}")]
