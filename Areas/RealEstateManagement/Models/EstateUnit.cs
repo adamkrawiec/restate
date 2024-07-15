@@ -28,6 +28,12 @@ public class EstateUnit
     public RealEstate RealEstate { get; set; }
     public int RealEstateId { get; set; }
 
+    public string Address {
+        get {
+            return $"{RealEstate.Street} {RealEstate.HouseNumber}/{UnitNumber} {RealEstate.City}";
+        }
+    }
+
     public EstateUnit() { }
 
     public EstateUnit(
