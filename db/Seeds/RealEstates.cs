@@ -8,7 +8,7 @@ public class RealEstates
     {
         if (context.RealEstates.Any())
         {
-        return;
+            return;
         }
 
         context.RealEstates.AddRange(
