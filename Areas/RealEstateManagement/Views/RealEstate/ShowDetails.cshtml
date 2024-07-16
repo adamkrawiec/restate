@@ -1,4 +1,21 @@
-<a asp-area="RealEstateManagement" asp-controller="RealEstate" asp-action="Index">
-    All Real Estates
-</a>
-<h2>Hello</h2>
+@using restate.RealEstateManagement.Models;
+@model RealEstate;
+
+<h1>@Model.Name</h1>
+
+<div>
+    <a asp-area="RealEstateManagement" asp-controller="EstateUnit" asp-action="New" asp-route-realEstateId="@Model.Id">
+        Add New Estate Unit
+    </a>
+</div>
+<div>
+    <a asp-area="RealEstateManagement" asp-controller="EstateUnit" asp-action="Index" asp-route-realEstateId="@Model.Id">
+        Estate Units
+    </a>
+</div>
+
+<div>
+    <a asp-area="RealEstateManagement" asp-controller="RealEstate" asp-action="Index">
+        Back to all Real Estates
+    </a>
+</div>

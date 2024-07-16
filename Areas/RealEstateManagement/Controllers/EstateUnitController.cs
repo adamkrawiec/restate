@@ -34,8 +34,28 @@ public class EstateUnitController : Controller
     }
 
     [HttpGet("new")]
-    public IActionResult New()
+    public async Task<IActionResult> New(int realEstateId)
     {
+        RealEstate realEstate = await _context.RealEstates.FindAsync(realEstateId);
+        ViewBag.RealEstate = realEstate;
         return View();
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Create([Bind("Id,Name,UnitNumber,Area,Type")] EstateUnit estateUnit, int realEstateId)
+    {
+        RealEstate realEstate = await _context.RealEstates.FindAsync(realEstateId);
+        estateUnit.RealEstate = realEstate;
+        ModelState.Clear();
+        
+        if(ModelState.IsValid)
+        {
+            _context.EstateUnits.Add(estateUnit);
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Index", new { realEstateId = realEstateId });
+        }
+
+        ViewBag.RealEstate = realEstate;
+        return View("New", estateUnit);
     }
 }

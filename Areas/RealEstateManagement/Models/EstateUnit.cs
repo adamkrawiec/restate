@@ -30,7 +30,11 @@ public class EstateUnit
 
     public string Address {
         get {
-            return $"{RealEstate.Street} {RealEstate.HouseNumber}/{UnitNumber} {RealEstate.City}";
+            if(RealEstate is not null)
+            {
+                return $"{RealEstate.Street} {RealEstate.HouseNumber}/{UnitNumber} {RealEstate.City}";
+            }
+            return "";
         }
     }
 
