@@ -16,10 +16,15 @@ public class EstateUnitController : Controller
         _context = context;
     }
 
-    public async Task<IActionResult> Index(int realEstateId)
+    public async Task<IActionResult> Index(int realEstateId, string? searchString)
     {
         RealEstate realEstate = await _context.RealEstates.FindAsync(realEstateId);
-        List<EstateUnit> estateUnits = await _context.EstateUnits.Where(es => es.RealEstate == realEstate).ToListAsync();
+        var estateUnitQuery = _context.EstateUnits.Where(es => es.RealEstate == realEstate);
+        if(!String.IsNullOrEmpty(searchString))
+        {
+            estateUnitQuery = estateUnitQuery.Where(eu => eu.Name.ToLower().Contains(searchString.ToLower()));
+        }
+        List<EstateUnit> estateUnits = await estateUnitQuery.ToListAsync();
         return View(estateUnits);
     }
 

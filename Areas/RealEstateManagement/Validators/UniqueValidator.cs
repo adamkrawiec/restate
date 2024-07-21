@@ -6,9 +6,12 @@ namespace restate.RealEstateManagement.Validators;
 
 public class UniqueValidatorAttribute : ValidationAttribute
 {
-    protected override ValidationResult IsValid(object value,
-        ValidationContext validationContext)
+    protected override ValidationResult IsValid(object value, ValidationContext validationContext)
     {
+        if(value is null)
+        {
+            return new ValidationResult("Name is empty");
+        }
         var context = (AppDbContext)validationContext.GetService(typeof(AppDbContext));
         if(!context.RealEstates.Any(re => re.Name == value.ToString()))
         {

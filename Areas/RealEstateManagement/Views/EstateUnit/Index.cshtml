@@ -3,10 +3,45 @@
 
 <h2>Estate Units</h2>
 
-<ul>
-  @foreach(var estateUnit in Model)
-  {
-    <li>
-      @Html.ActionLink(estateUnit.Name, "Show", "EstateUnit", new { realEstateId = estateUnit.RealEstateId, id = estateUnit.Id})</li>
-  }
-</ul>
+<div>
+    <a asp-area="RealEstateManagement" asp-controller="EstateUnit" asp-action="New" asp-route-realEstateId="@ViewContext.RouteData.Values["realEstateId"]">
+        Add New Estate Unit
+    </a>
+</div>
+<div>
+  <form
+    asp-area="RealEstateManagement"
+    asp-controller="EstateUnit"
+    asp-action="Index"
+    asp-route-realEstateId="@ViewContext.RouteData.Values["realEstateId"]"
+    method="get"
+  >
+    <p>
+        Name: <input type="text" name="SearchString" />
+        <input type="submit" value="Filter" />
+    </p>
+</form>
+  <table>
+    <thead>
+      <tr>
+        <th>@Html.DisplayNameFor(dummy => Model[0].Name)</th>
+        <th>@Html.DisplayNameFor(dummy => Model[0].UnitNumber)</th>
+        <th>@Html.DisplayNameFor(dummy => Model[0].Area)</th>
+        <th>@Html.DisplayNameFor(dummy => Model[0].Type)</th>
+      </tr>
+    </thead>
+    <tbody>
+    @foreach(var estateUnit in Model)
+    {
+      <tr>
+        <td>
+          @Html.ActionLink(estateUnit.Name, "Show", "EstateUnit", new { realEstateId = estateUnit.RealEstateId, id = estateUnit.Id})
+        </td>
+        <td>@estateUnit.UnitNumber</td>
+        <td>@estateUnit.Area</td>
+        <td>@estateUnit.Type</td>
+      </tr>
+    }
+    </tbody>
+  </table>
+</div>

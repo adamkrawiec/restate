@@ -13,6 +13,7 @@ public class EstateUnit
     public int Id { get; set; }
 
     [Required]
+    [DisplayName("Name")]
     // Unique per Real Estate
     public string Name { get; set; }
 
@@ -20,9 +21,11 @@ public class EstateUnit
     // Unique per Real Estate
     public string UnitNumber { get; set; }
 
+    [DisplayName("Floor Area")]
     public float Area { get; set; }
 
     // forbid Residential if real estate is commercial
+    [DisplayName("Unit type")]
     public EstateUnitType Type { get; set; }
 
     public RealEstate RealEstate { get; set; }

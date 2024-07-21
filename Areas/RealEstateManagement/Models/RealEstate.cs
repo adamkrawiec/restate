@@ -19,7 +19,7 @@ public class RealEstate
     public int Id { get; set; }
 
     [Required]
-    [UniqueValidator]
+    // [UniqueValidator]
     public string Name { get; set; }
 
     [Required]

@@ -47,7 +47,7 @@ public class RealEstateController : Controller
     [HttpGet("{id}")]
     public async Task<IActionResult> ShowDetails(int id)
     {
-        RealEstate realEstate = await _context.RealEstates.FindAsync(id);
+        RealEstate? realEstate = await _context.RealEstates.FindAsync(id);
         if (realEstate == null)
         {
             return NotFound();
@@ -58,7 +58,7 @@ public class RealEstateController : Controller
     [HttpGet("{id}/edit")]
     public IActionResult Edit(int id)
     {
-        RealEstate realEstate = _context.RealEstates.Find(id);
+        RealEstate? realEstate = _context.RealEstates.Find(id);
         if (realEstate == null)
         {
             return NotFound();

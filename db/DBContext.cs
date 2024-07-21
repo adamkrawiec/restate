@@ -5,10 +5,12 @@ namespace restate.db;
 
 public class AppDbContext : DbContext
 {
+    public AppDbContext() {}
+
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
     {
     }
 
-    public DbSet<RealEstate> RealEstates { get; set; }
-    public DbSet<EstateUnit> EstateUnits { get; set; }
+    public virtual DbSet<RealEstate> RealEstates { get; set; }
+    public virtual DbSet<EstateUnit> EstateUnits { get; set; }
 }
