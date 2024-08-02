@@ -8,5 +8,6 @@ public class Seed
     {
         RealEstates.Seed(context);
         EstateUnits.Seed(context);
+        Users.Seed(context);
     }
 }

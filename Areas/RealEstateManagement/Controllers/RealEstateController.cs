@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using restate.db;
 using restate.RealEstateManagement.Models;
+using restate.RealEstateManagement.Repositories;
 
 namespace restate.RealEstateManagement.Controllers;
 
@@ -10,17 +11,18 @@ namespace restate.RealEstateManagement.Controllers;
 [Route("real-estates")]
 public class RealEstateController : Controller
 {
-    private readonly AppDbContext _context;
+    private readonly RealEstateRepository _repository;
 
     public RealEstateController(AppDbContext context)
     {
-        _context = context;
+        _repository = new RealEstateRepository(context);
+
     }
 
     [Route("")]
     public async Task<IActionResult> Index()
     {
-        List<RealEstate> realEstates = await _context.RealEstates.ToListAsync();
+        List<RealEstate> realEstates = await _repository.FindAll();
         return View(realEstates);
     }
 
@@ -36,8 +38,7 @@ public class RealEstateController : Controller
     {
         if (ModelState.IsValid)
         {
-            _context.RealEstates.Add(realEstate);
-            await _context.SaveChangesAsync();
+            await _repository.Create(realEstate);
             return RedirectToAction("Index");
         }
 
@@ -47,7 +48,7 @@ public class RealEstateController : Controller
     [HttpGet("{id}")]
     public async Task<IActionResult> ShowDetails(int id)
     {
-        RealEstate? realEstate = await _context.RealEstates.FindAsync(id);
+        RealEstate? realEstate = await _repository.FindById(id);
         if (realEstate == null)
         {
             return NotFound();
@@ -56,9 +57,9 @@ public class RealEstateController : Controller
     }
 
     [HttpGet("{id}/edit")]
-    public IActionResult Edit(int id)
+    public async Task<IActionResult> Edit(int id)
     {
-        RealEstate? realEstate = _context.RealEstates.Find(id);
+        RealEstate? realEstate = await _repository.FindById(id);
         if (realEstate == null)
         {
             return NotFound();
@@ -73,8 +74,7 @@ public class RealEstateController : Controller
         {
             return BadRequest();
         }
-        _context.Entry(realEstate).State = EntityState.Modified;
-        await _context.SaveChangesAsync();
+        await _repository.Update(realEstate);
         return RedirectToAction("Index");
     }
 
